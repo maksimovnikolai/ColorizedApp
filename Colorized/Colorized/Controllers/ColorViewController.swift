@@ -9,9 +9,14 @@ import UIKit
 
 final class ColorViewController: UIViewController {
     
+    private var colorView = ColorView()
+    
+    override func loadView() {
+        view = colorView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .cyan
     }
 }
