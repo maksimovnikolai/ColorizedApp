@@ -12,23 +12,23 @@ final class ColorView: UIView {
     
     typealias Axis = NSLayoutConstraint.Axis
     
-    private lazy var colorView = makeView()
+    lazy var colorView = makeView()
     
-    private lazy var redLabel = makeLabelView(withTitle: "Red")
-    private lazy var greenLabel = makeLabelView(withTitle: "Green")
-    private lazy var blueLabel = makeLabelView(withTitle: "Blue")
+    lazy var redLabel = makeLabelView()
+    lazy var greenLabel = makeLabelView()
+    lazy var blueLabel = makeLabelView()
     
-    private lazy var redSliderValue = makeLabelView(withTitle: "0.33")
-    private lazy var greenSliderValue = makeLabelView(withTitle: "0.33")
-    private lazy var blueSliderValue = makeLabelView(withTitle: "0.33")
+    lazy var redSlider = makeSliderView(trackColor: .red, value: 0.22)
+    lazy var greenSlider = makeSliderView(trackColor: .green, value: 0.47)
+    lazy var blueSlider = makeSliderView(value: 0.69)
     
-    private lazy var redSlider = makeSliderView()
-    private lazy var greenSlider = makeSliderView()
-    private lazy var blueSlider = makeSliderView()
-    
-    private lazy var redTextField = makeTextFieldView()
-    private lazy var greenTextField = makeTextFieldView()
-    private lazy var blueTextField = makeTextFieldView()
+    lazy var redTextField = makeTextFieldView()
+    lazy var greenTextField = makeTextFieldView()
+    lazy var blueTextField = makeTextFieldView()
+
+    private lazy var redLabelText = makeLabelView(withTitle: "Red")
+    private lazy var greenLabelText = makeLabelView(withTitle: "Green")
+    private lazy var blueLabelText = makeLabelView(withTitle: "Blue")
     
     private lazy var titleStackView = makeStackView(axis: .vertical)
     private lazy var valueStackView = makeStackView(axis: .vertical)
@@ -45,7 +45,6 @@ final class ColorView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 // MARK: Methods
@@ -59,30 +58,6 @@ extension ColorView {
         configureValueStackView()
         configureSliderStackView()
         configureTextFieldStackView()
-    }
-}
-
-// MARK: Constraints
-extension ColorView {
-    
-    private func setupConstraintsToColorView() {
-        addSubview(colorView)
-        NSLayoutConstraint.activate([
-            colorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
-            colorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            colorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            colorView.heightAnchor.constraint(equalToConstant: 128),
-        ])
-        
-    }
-    
-    private func setupConstraintsToVerticalStack() {
-        addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 40),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-        ])
     }
 }
 
@@ -103,9 +78,9 @@ extension ColorView {
         titleStackView.spacing = 25
         titleStackView.alignment = .fill
         titleStackView.distribution = .fill
-        titleStackView.addArrangedSubview(redLabel)
-        titleStackView.addArrangedSubview(greenLabel)
-        titleStackView.addArrangedSubview(blueLabel)
+        titleStackView.addArrangedSubview(redLabelText)
+        titleStackView.addArrangedSubview(greenLabelText)
+        titleStackView.addArrangedSubview(blueLabelText)
     }
     
     private func configureValueStackView() {
@@ -113,9 +88,9 @@ extension ColorView {
         valueStackView.spacing = 25
         valueStackView.alignment = .fill
         valueStackView.distribution = .fill
-        valueStackView.addArrangedSubview(redSliderValue)
-        valueStackView.addArrangedSubview(greenSliderValue)
-        valueStackView.addArrangedSubview(blueSliderValue)
+        valueStackView.addArrangedSubview(redLabel)
+        valueStackView.addArrangedSubview(greenLabel)
+        valueStackView.addArrangedSubview(blueLabel)
     }
     
     private func configureSliderStackView() {
@@ -144,20 +119,23 @@ extension ColorView {
     private func makeView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .yellow
+        view.layer.cornerRadius = 15
         return view
     }
     
-    private func makeLabelView(withTitle title: String) -> UILabel {
+    private func makeLabelView(withTitle title: String? = nil) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = title
+        label.font = .systemFont(ofSize: 14)
         return label
     }
     
-    private func makeSliderView() -> UISlider {
+    private func makeSliderView(trackColor: UIColor? = nil, value: Float ) -> UISlider {
         let slider = UISlider()
         slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.minimumTrackTintColor = trackColor
+        slider.value = value
         return slider
     }
     
@@ -177,5 +155,28 @@ extension ColorView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = axis
         return stackView
+    }
+}
+
+// MARK: Constraints
+extension ColorView {
+    
+    private func setupConstraintsToColorView() {
+        addSubview(colorView)
+        NSLayoutConstraint.activate([
+            colorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
+            colorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            colorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            colorView.heightAnchor.constraint(equalToConstant: 128),
+        ])
+    }
+    
+    private func setupConstraintsToVerticalStack() {
+        addSubview(mainStackView)
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 40),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+        ])
     }
 }
