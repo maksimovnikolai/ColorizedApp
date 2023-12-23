@@ -128,6 +128,11 @@ extension ColorViewController {
 // MARK: - UITextFieldDelegate
 extension ColorViewController: UITextFieldDelegate {
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         guard let text = textField.text else { return }
