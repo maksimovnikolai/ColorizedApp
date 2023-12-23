@@ -149,6 +149,7 @@ extension ColorView {
         textField.font = .systemFont(ofSize: 14)
         textField.minimumFontSize = 17
         textField.adjustsFontSizeToFitWidth = true
+        textField.keyboardType = .decimalPad
         return textField
     }
     

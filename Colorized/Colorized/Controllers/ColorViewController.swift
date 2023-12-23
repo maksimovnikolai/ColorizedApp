@@ -25,15 +25,22 @@ final class ColorViewController: UIViewController {
     }
 }
 
-// MARK: Metods
+// MARK: Private Methods
 extension ColorViewController {
     
     private func commonInit() {
         colorView.colorView.backgroundColor = viewColor
         addTargets()
+        setupDelegate()
         setSliders()
         setValue(for: colorView.redLabel, colorView.greenLabel, colorView.blueLabel)
         setValue(for: colorView.redTextField, colorView.greenTextField, colorView.blueTextField)
+    }
+    
+    private func setupDelegate() {
+        [colorView.redTextField,
+         colorView.blueTextField,
+         colorView.greenTextField].forEach { $0.delegate = self }
     }
     
     private func setColor() {
@@ -75,6 +82,11 @@ extension ColorViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc
+    private func didTapDone() {
+        view.endEditing(true)
+    }
+    
     private func setValue(for labels: UILabel...) {
         labels.forEach { label in
             switch label {
@@ -110,5 +122,29 @@ extension ColorViewController {
     
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension ColorViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let keyboardToolBar = UIToolbar()
+        keyboardToolBar.sizeToFit()
+        textField.inputAccessoryView = keyboardToolBar
+        
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapDone)
+        )
+        
+        let flexBrButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        
+        keyboardToolBar.items = [flexBrButton, doneButton]
     }
 }
