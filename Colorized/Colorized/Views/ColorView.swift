@@ -13,6 +13,7 @@ final class ColorView: UIView {
     typealias Axis = NSLayoutConstraint.Axis
     
     lazy var colorView = makeView()
+    lazy var doneButton = makeButtonView()
     
     lazy var redLabel = makeLabelView()
     lazy var greenLabel = makeLabelView()
@@ -58,6 +59,7 @@ extension ColorView {
         configureValueStackView()
         configureSliderStackView()
         configureTextFieldStackView()
+        setupConstraintToDoneButton()
     }
 }
 
@@ -156,6 +158,14 @@ extension ColorView {
         stackView.axis = axis
         return stackView
     }
+    
+    private func makeButtonView() -> UIButton {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.configuration = .filled()
+        button.configuration?.title = "Готово"
+        return button
+    }
 }
 
 // MARK: Constraints
@@ -177,6 +187,14 @@ extension ColorView {
             mainStackView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 40),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+        ])
+    }
+    
+    private func setupConstraintToDoneButton() {
+        addSubview(doneButton)
+        NSLayoutConstraint.activate([
+            doneButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            doneButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -70),
         ])
     }
 }
