@@ -123,6 +123,13 @@ extension ColorViewController {
     private func string(from slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -149,7 +156,10 @@ extension ColorViewController: UITextFieldDelegate {
                 colorView.blueSlider.setValue(currentValue, animated: true)
                 setValue(for: colorView.blueLabel)
             }
+            setColor()
+            return
         }
+        showAlert(title: "Неверный формат!", message: "Введите корректное значение")
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -168,7 +178,6 @@ extension ColorViewController: UITextFieldDelegate {
             target: nil,
             action: nil
         )
-        
         keyboardToolBar.items = [flexBrButton, doneButton]
     }
 }
