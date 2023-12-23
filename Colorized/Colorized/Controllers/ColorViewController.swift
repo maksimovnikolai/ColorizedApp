@@ -71,7 +71,7 @@ extension ColorViewController {
     
     @objc
     private func showMain() {
-        delegate?.setColor(colorView.colorView.backgroundColor ?? .clear)
+        delegate?.setColor(self, colorView.colorView.backgroundColor ?? .clear)
         navigationController?.popViewController(animated: true)
     }
     
