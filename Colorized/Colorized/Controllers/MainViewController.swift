@@ -39,6 +39,7 @@ extension MainViewController {
         let colorViewController = ColorViewController()
         colorViewController.viewColor = view.backgroundColor
         colorViewController.delegate = self
+        navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(colorViewController, animated: true)
     }
 }

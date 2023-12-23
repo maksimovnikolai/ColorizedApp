@@ -31,6 +31,7 @@ extension ColorViewController {
     private func commonInit() {
         colorView.colorView.backgroundColor = viewColor
         addTargets()
+        setSliders()
         setValue(for: colorView.redLabel, colorView.greenLabel, colorView.blueLabel)
         setValue(for: colorView.redTextField, colorView.greenTextField, colorView.blueTextField)
     }
@@ -98,6 +99,13 @@ extension ColorViewController {
                 colorView.blueTextField.text = string(from: colorView.blueSlider)
             }
         }
+    }
+    
+    private func setSliders() {
+        let ciColor = CIColor(color: viewColor)
+        colorView.redSlider.value = Float(ciColor.red)
+        colorView.greenSlider.value = Float(ciColor.green)
+        colorView.blueSlider.value = Float(ciColor.blue)
     }
     
     private func string(from slider: UISlider) -> String {
