@@ -9,6 +9,9 @@ import UIKit
 
 final class ColorViewController: UIViewController {
     
+    var viewColor: UIColor!
+    weak var delegate: ColorViewControllerDelegate?
+    
     private let colorView = ColorView()
     
     override func loadView() {
@@ -26,10 +29,10 @@ final class ColorViewController: UIViewController {
 extension ColorViewController {
     
     private func commonInit() {
-        addTargetsForSliders()
+        colorView.colorView.backgroundColor = viewColor
+        addTargets()
         setValue(for: colorView.redLabel, colorView.greenLabel, colorView.blueLabel)
         setValue(for: colorView.redTextField, colorView.greenTextField, colorView.blueTextField)
-        setColor()
     }
     
     private func setColor() {
@@ -40,10 +43,11 @@ extension ColorViewController {
                 alpha: 1)
     }
     
-    private func addTargetsForSliders() {
+    private func addTargets() {
         colorView.redSlider.addTarget(self, action: #selector(changeValues), for: .valueChanged)
         colorView.greenSlider.addTarget(self, action: #selector(changeValues), for: .valueChanged)
         colorView.blueSlider.addTarget(self, action: #selector(changeValues), for: .valueChanged)
+        colorView.doneButton.addTarget(self, action: #selector(showMain), for: .touchUpInside)
     }
     
     @objc
@@ -62,6 +66,12 @@ extension ColorViewController {
             }
         }
         setColor()
+    }
+    
+    @objc
+    private func showMain() {
+        delegate?.setColor(colorView.colorView.backgroundColor ?? .clear)
+        navigationController?.popViewController(animated: true)
     }
     
     private func setValue(for labels: UILabel...) {

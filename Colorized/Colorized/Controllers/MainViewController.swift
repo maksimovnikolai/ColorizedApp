@@ -15,7 +15,7 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       commonInit()
+        commonInit()
     }
     
 }
@@ -28,8 +28,10 @@ extension MainViewController {
     }
     
     private func addBarButtonItem() {
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: ., target: self, action: #selector(showColorViewController))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: nil, image: UIImage(systemName: "rectangle.portrait.and.arrow.forward"), target: self, action: #selector(showColorViewController))
+        let item = UIBarButtonItem(title: nil, image: UIImage(systemName: "rectangle.portrait.and.arrow.forward"),
+                                 target: self,
+                                 action: #selector(showColorViewController))
+        navigationItem.rightBarButtonItem = item
     }
     
     @objc
