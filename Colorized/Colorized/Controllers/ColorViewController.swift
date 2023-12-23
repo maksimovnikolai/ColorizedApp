@@ -61,18 +61,18 @@ extension ColorViewController {
     @objc
     private func changeValues() {
         [colorView.redSlider, colorView.greenSlider, colorView.blueSlider].forEach { slider in
-            switch slider {
-            case colorView.redSlider:
-                setValue(for: colorView.redLabel)
-                setValue(for: colorView.redTextField)
-            case colorView.greenSlider:
-                setValue(for: colorView.greenLabel)
-                setValue(for: colorView.greenTextField)
-            default:
-                setValue(for: colorView.blueLabel)
-                setValue(for: colorView.blueTextField)
+                switch slider {
+                case colorView.redSlider:
+                    setValue(for: colorView.redLabel)
+                    setValue(for: colorView.redTextField)
+                case colorView.greenSlider:
+                    setValue(for: colorView.greenLabel)
+                    setValue(for: colorView.greenTextField)
+                default:
+                    setValue(for: colorView.blueLabel)
+                    setValue(for: colorView.blueTextField)
+                }
             }
-        }
         setColor()
     }
     
@@ -127,6 +127,25 @@ extension ColorViewController {
 
 // MARK: - UITextFieldDelegate
 extension ColorViewController: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        guard let text = textField.text else { return }
+        
+        if let currentValue = Float(text) {
+            switch textField {
+            case colorView.redTextField:
+                colorView.redSlider.setValue(currentValue, animated: true)
+                setValue(for: colorView.redLabel)
+            case colorView.greenTextField:
+                colorView.greenSlider.setValue(currentValue, animated: true)
+                setValue(for: colorView.greenLabel)
+            default:
+                colorView.blueSlider.setValue(currentValue, animated: true)
+                setValue(for: colorView.blueLabel)
+            }
+        }
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         let keyboardToolBar = UIToolbar()
