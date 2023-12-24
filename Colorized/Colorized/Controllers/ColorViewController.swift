@@ -180,4 +180,13 @@ extension ColorViewController: UITextFieldDelegate {
         )
         keyboardToolBar.items = [flexBrButton, doneButton]
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if range.length + range.location > textField.text?.count ?? 0 {
+            return false
+        }
+        
+        let newLimit = (textField.text?.count)! + string.count - range.length
+        return newLimit <= 4
+    }
 }
